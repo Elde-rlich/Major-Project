@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-&q7b*hh*-j-&&6^q6x@r2ya+avdu98$w_er$836^8_5&48o34f
 # Production settings
 SECRET_KEY = config('SECRET_KEY', default='django-insecure-&q7b*hh*-j-&&6^q6x@r2ya+avdu98$w_er$836^8_5&48o34f')
 DEBUG = config('DEBUG', default=False, cast=bool)
-ALLOWED_HOSTS = ['.railway.app', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['.railway.app', '127.0.0.1', 'localhost', '*']
 
 
 # Application definition
