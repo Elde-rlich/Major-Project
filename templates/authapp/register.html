@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bingo Dashboard</title>
+    <link rel="stylesheet" href="{% static 'authapp/style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="left-section">
+            <div class="logo-lang">
+                <img src="{% static 'authapp/LOGO.png' %}" alt="Bingo Logo" class="logo">
+            </div>
+            <h2>Create Account</h2>
+            <p>Join TRUE CLASSICS community today</p>
+            <br>
+
+            <!-- User Type Selection -->
+            <div class="user-type-selection">
+                <p>I am a:</p>
+                <label class="user-type-option">
+                    <input type="radio" name="usertype" value="customer" onchange="showForm('customer')"> Customer
+                </label>
+                <label class="user-type-option">
+                    <input type="radio" name="usertype" value="business" onchange="showForm('business')"> Business
+                </label>
+            </div>
+
+            <!-- Customer Registration Form -->
+            <form id="customer-form" class="registration-form" method="POST" action="{% url 'register' %}" style="display: none;">
+                {% csrf_token %}
+                <input type="hidden" name="user_type" value="customer">
+                <input type="text" name="username" placeholder="Username" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <input type="password" name="password_confirm" placeholder="Confirm Password" required>
+                
+                {% if form.errors %}
+                <ul class="error-list">
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                </ul>
+                {% endif %}
+
+                <button type="submit" class="register-btn">Register as Customer</button>
+            </form>
+
+            <!-- Business Registration Form -->
+            <form id="business-form" class="registration-form" method="POST" action="{% url 'register' %}" style="display: none;">
+                {% csrf_token %}
+                <input type="hidden" name="user_type" value="business">
+                <input type="text" name="business_name" placeholder="Business Name" required>
+                <input type="email" name="email" placeholder="Business Email" required>
+                <textarea name="hq_address" placeholder="HQ Address" rows="3" required></textarea>
+                <input type="password" name="password" placeholder="Password" required>
+                <input type="password" name="password_confirm" placeholder="Confirm Password" required>
+
+                {% if form.errors %}
+                <ul class="error-list">
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                </ul>
+                {% endif %}
+
+                <button type="submit" class="register-btn">Register as Business</button>
+            </form>
+
+            <div class="login-link">
+                Already have an account? <a href="{% url 'login' %}">Log in</a>
+            </div>
+        </div>
+
+        <div class="right-section">
+            <img src="{% static 'authapp/background.png' %}" alt="Background Image" class="background-image">
+        </div>
+    </div>
+
+    <script>
+        function showForm(userType) {
+            const customerForm = document.getElementById('customer-form');
+            const businessForm = document.getElementById('business-form');
+            
+            if (userType === 'customer') {
+                customerForm.style.display = 'block';
+                businessForm.style.display = 'none';
+            } else if (userType === 'business') {
+                customerForm.style.display = 'none';
+                businessForm.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>

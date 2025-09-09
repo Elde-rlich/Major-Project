@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- TASK: Chnage the wordings for this page-->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxury Fashion - Home</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Playfair Display', 'Georgia', serif;
+            background: #1a1a1a;
+            overflow-x: hidden;
+        }
+
+        /* Page Load Animation */
+        .page-load-animation {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: pageLoadFadeIn 1.2s ease-out forwards;
+        }
+
+        @keyframes pageLoadFadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Fade-in animations */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(40px);
+            visibility: hidden;
+            transition: opacity 1s ease-out, transform 1.2s ease-out, visibility 1s ease-out;
+            will-change: opacity, visibility, transform;
+        }
+
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+            visibility: visible;
+        }
+
+        .fade-in-left {
+            opacity: 0;
+            transform: translateX(-60px);
+            transition: opacity 1.2s ease-out, transform 1.4s ease-out;
+        }
+
+        .fade-in-left.is-visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .fade-in-right {
+            opacity: 0;
+            transform: translateX(60px);
+            transition: opacity 1.2s ease-out, transform 1.4s ease-out;
+        }
+
+        .fade-in-right.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Staggered animation delays for gallery items */
+        .gallery-row:nth-child(1) { transition-delay: 0.1s; }
+        .gallery-row:nth-child(2) { transition-delay: 0.2s; }
+        .gallery-row:nth-child(3) { transition-delay: 0.3s; }
+        .gallery-row:nth-child(4) { transition-delay: 0.4s; }
+
+        /* Landing container */
+        .landing-container {
+            display: flex;
+            min-height: 100vh;
+            position: relative;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Top Navigation */
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            /* background: rgba(26, 26, 26, 0.9); */
+            /* backdrop-filter: blur(10px); */
+            opacity: 0;
+            animation: fadeInDown 1s ease-out 0.5s forwards;
+        }
+
+        @keyframes fadeInDown {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            height: 60px;
+            width: auto;
+            transition: opacity 0.3s ease;
+        }
+
+        .logo:hover {
+            opacity: 0.8;
+        }
+
+        .nav-icons {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .nav-icon {
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+
+        .nav-icon:hover {
+            opacity: 0.7;
+        }
+
+        .login-text {
+            color: white;
+            font-size: 14px;
+            font-weight: 300;
+            font-family:Helvetica;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+            margin-right: 10px;
+        }
+
+        .login-text:hover {
+            opacity: 0.7;
+        }
+
+        /* Main Content Panel - Centered */
+        .main-content {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Model Image - Centered */
+        .model-image {
+            width: 50%;
+            height: auto;
+            max-height: 200vh;
+            object-fit: contain;
+            object-position: center;
+            filter: grayscale(100%);
+            transition: filter 0.3s ease;
+            border-radius: 10px;
+        }
+
+        .main-content:hover .model-image {
+            filter: grayscale(80%);
+        }
+
+        /* Content Overlay - Semi-centered */
+        .content-overlay {
+            position: absolute;
+            top: 60%;
+            left: 30%;
+            transform: translate(-50%, -50%);
+            color: white;
+            text-align: left;
+            z-index: 10;
+            max-width: 800px;
+            width: 100%;
+            padding: 40px;
+            border-radius: 15px;
+        }
+
+        .line-break {
+            margin:20px auto 0;
+            height:1px;
+            margin-left: 0;
+            max-width: 600px;
+        }
+        .main-headline {
+            color: white;
+            background: linear-gradient(0deg, #000000 78px, #fff0 100%);
+            display: inline-block;
+            font-size: 80px;
+            font-weight: 100;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-family: "helvetica_neue_thin", Helvetica;
+        }
+
+        .product-categories {
+            display: grid;
+            grid-template-columns: repeat(3, 200px);
+            gap: 20px 20px;
+            margin: 20px auto 60px;
+            font-size: 12px;
+            font-weight: 100;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-family: 'poppins', sans-serif;
+            line-height: 1.6;
+        }
+
+        .category-column {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .discover-btn {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: transparent;
+            border: 1px solid white;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 10px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-family: 'Playfair Display', serif;
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation-duration: 0.5s;
+            animation-fill-mode: both;
+        }
+
+
+        .discover-btn:hover {
+            background: rgb(255, 254, 254);
+            color: black;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+
+        /* Add a subtle shadow effect during wobble */
+        .discover-btn:hover::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            animation: wobble 0.8s ease-in-out;
+        }
+
+        /* Scroll Indicator - Right Side */
+        .scroll-indicator {
+            position: fixed;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            opacity: 0;
+            animation: fadeInRight 1.5s ease-out 1s forwards;
+        }
+
+        @keyframes fadeInRight {
+            0% {
+                opacity: 0;
+                transform: translateY(-50%) translateX(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(-50%) translateX(0);
+            }
+        }
+
+        .scroll-line {
+            width: 2px;
+            height: 100px;
+            background: #ff0000;
+            position: relative;
+        }
+
+        .scroll-circle {
+            width: 8px;
+            height: 8px;
+            background: #ff0000;
+            border-radius: 50%;
+        }
+
+        .scroll-number {
+            color: #ff0000;
+            font-size: 10px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            margin-top: 10px;
+        }
+
+        /* Additional Images Section */
+        .additional-images {
+            background: #1a1a1a;
+            padding: 100px 0;
+        }
+
+        .image-gallery {
+            display: flex;
+            flex-direction: column;
+            gap: 100px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        .gallery-row {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+        }
+
+        .gallery-row.reverse {
+            flex-direction: row-reverse;
+        }
+
+        .gallery-image {
+            flex: 1;
+            max-width: 500px;
+        }
+
+        .gallery-image img {
+            width: 100%;
+            height: 600px;
+            object-fit: cover;
+            filter: grayscale(100%);
+            transition: filter 0.3s ease;
+        }
+
+        .gallery-image:hover img {
+            filter: grayscale(70%);
+        }
+
+        .gallery-content {
+            flex: 1;
+            color: white;
+            padding: 40px;
+        }
+
+        .gallery-title {
+            font-size: 36px;
+            font-weight: 300;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+
+        .gallery-description {
+            font-size: 14px;
+            line-height: 1.8;
+            opacity: 0.8;
+        }
+
+        /* Footer */
+        .footer {
+            background: #0a0a0a;
+            color: white;
+            padding: 80px 0 40px;
+            margin-top: 100px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 60px;
+        }
+
+        .footer-section h3 {
+            font-size: 16px;
+            font-weight: 400;
+            margin-bottom: 30px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 15px;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .social-links i {
+            font-size: 20px;
+            opacity: 0.7;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+
+        .social-links i:hover {
+            opacity: 1;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding: 40px 0 20px;
+            border-top: 1px solid #333;
+            margin-top: 60px;
+            font-size: 12px;
+            opacity: 0.6;
+        }
+
+        /* Mobile Responsive - Updated */
+        @media (max-width: 768px) {
+            .model-image {
+                width: 90%;
+                height: auto;
+                max-height: 70vh;
+            }
+
+            .content-overlay {
+                padding: 20px;
+                max-width: 100%;
+            }
+
+            .main-headline {
+                font-size: 32px;
+                margin-bottom: 30px;
+            }
+
+            .discover-btn {
+                width: 100px;
+                height: 100px;
+                font-size: 9px;
+                bottom: 15px;
+            }
+
+            .scroll-indicator {
+                right: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-headline {
+                font-size: 24px;
+            }
+
+            .content-overlay {
+                padding: 15px;
+            }
+
+            .discover-btn {
+                width: 80px;
+                height: 80px;
+                font-size: 8px;
+                bottom: 10px;
+            }
+
+            .scroll-indicator {
+                right: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <img src="logo.png" alt="Luxury Fashion Logo" class="logo">
+         <!-- <h1 class="logo">Bingo</h1> -->
+        <div class="nav-icons">
+            <a href="../login/index.html" style="text-decoration: none;"><span class="login-text">Login</span></a>
+            <i class="fas fa-user nav-icon"></i>
+            <i class="fas fa-search nav-icon"></i>
+            <i class="fas fa-bars nav-icon"></i>
+        </div>
+    </nav>
+
+    <!-- Main Landing Section -->
+    <div class="landing-container page-load-animation">
+        <!-- Main Content Panel - Centered -->
+        <div class="main-content">
+            <img src="model.jpg" alt="Fashion Model" class="model-image">
+            <div class="content-overlay">
+                <h1 class="main-headline">A NEW ERA</h1>
+                <hr class="line-break">
+                <div class="product-categories">
+                <div class="category">PENDANTS</div>
+                <div class="category">EARRINGS</div>
+                <div class="category">RINGS</div>
+                <div class="category">CUFFLINKS</div>
+                <div class="category">BRACELETS</div>
+                <div class="category">ACCESSORIES</div>
+                <div class="category">PENDANTS OF</div>
+                <div class="category">ZODIAC</div>
+                <div class="category">THE YEAR</div>
+                <div class="category">MEN'S</div>
+                <div class="category">CHOKERS</div>
+                <div class="category">ACCESSORIES</div>
+                <div class="category"></div>
+                <div class="category">HOLLOWWARE</div>
+            </div>
+            </div>
+            <button class="discover-btn" onclick="scrollToGallery()">
+                <span>DISCOVER</span>
+                <span>OUR PRODUCTS</span>
+                <i class="fas fa-arrow-down"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="scroll-indicator">
+        <div class="scroll-circle"></div>
+        <div class="scroll-line"></div>
+        <div class="scroll-circle"></div>
+        <div class="scroll-number">N°1</div>
+    </div>
+
+    <!-- Additional Images Gallery -->
+    <div class="additional-images" id="gallery">
+        <div class="image-gallery">
+            <div class="gallery-row fade-in-section" data-delay="100">
+                <div class="gallery-image">
+                    <img src="model4.jpg" alt="Fashion Collection">
+                </div>
+                <div class="gallery-content">
+                    <h2 class="gallery-title">PREMIUM COLLECTION</h2>
+                    <p class="gallery-description">
+                        Explore our carefully curated selection of premium fashion pieces. Each item represents the
+                        pinnacle of craftsmanship and design, bringing together traditional techniques with contemporary
+                        aesthetics.
+                    </p>
+                </div>
+            </div>
+
+            <div class="gallery-row reverse fade-in-section" data-delay="200">
+                <div class="gallery-image">
+                    <img src="model3.jpg" alt="Luxury Accessories">
+                </div>
+                <div class="gallery-content">
+                    <h2 class="gallery-title">LUXURY ACCESSORIES</h2>
+                    <p class="gallery-description">
+                        Complement your style with our exclusive range of luxury accessories. From statement jewelry to
+                        elegant scarves, every piece is designed to elevate your wardrobe.
+                    </p>
+                </div>
+            </div>
+
+            <div class="gallery-row fade-in-section" data-delay="300">
+                <div class="gallery-image">
+                    <img src="model5.jpg" alt="Seasonal Collection">
+                </div>
+                <div class="gallery-content">
+                    <h2 class="gallery-title">SEASONAL ESSENTIALS</h2>
+                    <p class="gallery-description">
+                        Stay ahead of the trends with our seasonal collections. Each season brings new inspirations and
+                        fresh perspectives on timeless elegance.
+                    </p>
+                </div>
+            </div>
+
+            <div class="gallery-row reverse fade-in-section" data-delay="400">
+                <div class="gallery-image">
+                    <img src="model2.jpg" alt="Exclusive Designs">
+                </div>
+                <div class="gallery-content">
+                    <h2 class="gallery-title">EXCLUSIVE DESIGNS</h2>
+                    <p class="gallery-description">
+                        Discover limited edition pieces that showcase the artistry and innovation of contemporary
+                        fashion. Each design tells a unique story of creativity and passion.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Shop</h3>
+                <ul class="footer-links">
+                    <li><a href="#pendants">Casuals</a></li>
+                    <li><a href="#earrings">Formals</a></li>
+                    <li><a href="#rings">Blazers</a></li>
+                    <li><a href="#bracelets">Ethnic Wear</a></li>
+                    <li><a href="#accessories">Dresses</a></li>
+                    <li><a href="#collections">Other collections</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>About</h3>
+                <ul class="footer-links">
+                    <li><a href="#story">Our Story</a></li>
+                    <li><a href="#craftmanship">Craftmanship</a></li>
+                    <li><a href="#sustainability">Sustainability</a></li>
+                    <li><a href="#careers">Careers</a></li>
+                    <li><a href="#press">Press</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Support</h3>
+                <ul class="footer-links">
+                    <li><a href="#contact">Contact Us</a></li>
+                    <li><a href="#shipping">Shipping Info</a></li>
+                    <li><a href="#returns">Returns</a></li>
+                    <li><a href="#size-guide">Size Guide</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Connect</h3>
+                <ul class="footer-links">
+                    <li><a href="#newsletter">Newsletter</a></li>
+                    <li><a href="#account">My Account</a></li>
+                    <li><a href="#wishlist">Wishlist</a></li>
+                </ul>
+                <div class="social-links">
+                    <i class="fab fa-instagram"></i>
+                    <i class="fab fa-facebook-f"></i>
+                    <i class="fab fa-twitter"></i>
+                    <i class="fab fa-pinterest"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2025 BINGO. All rights reserved. | Privacy Policy | Terms of Service</p>
+        </div>
+    </footer>
+
+    <script>
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.15,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Add a small delay for staggered effect
+                    setTimeout(() => {
+                        entry.target.classList.add('is-visible');
+                    }, entry.target.dataset.delay || 0);
+                }
+            });
+        }, observerOptions);
+
+        // Observe all fade-in elements
+        document.addEventListener('DOMContentLoaded', function () {
+            const fadeElements = document.querySelectorAll('.fade-in-section, .fade-in-left, .fade-in-right');
+            fadeElements.forEach(el => observer.observe(el));
+
+            // Initial animation for elements in viewport
+            setTimeout(() => {
+                document.querySelectorAll('.fade-in-left, .fade-in-right').forEach(el => {
+                    el.classList.add('is-visible');
+                });
+            }, 800);
+        });
+
+        // Smooth scroll to gallery
+        function scrollToGallery() {
+            document.getElementById('gallery').scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+
+        // Category click handlers
+        document.querySelectorAll('.category').forEach(category => {
+            category.addEventListener('click', function () {
+                console.log('Category clicked:', this.textContent);
+                // Add navigation logic for categories
+            });
+        });
+
+        // Navigation icon handlers
+        document.querySelectorAll('.nav-icon').forEach(icon => {
+            icon.addEventListener('click', function () {
+                console.log('Nav icon clicked');
+                // Add navigation logic
+            });
+        });
+
+        // Footer link handlers
+        document.querySelectorAll('.footer-links a').forEach(link => {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                console.log('Footer link clicked:', this.textContent);
+                // Add navigation logic
+            });
+        });
+    </script>
+</body>
+
+</html>

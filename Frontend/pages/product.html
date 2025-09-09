@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details - TRUE CLASSICS</title>
+    <link rel="stylesheet" href="../homepage/style.css">
+</head>
+<body>
+    <!-- Header (same as main page) -->
+    <header class="header">
+        <div class="nav">
+            <div class="nav__logo">
+                <img src="../homepage/logo.png" alt="Bingo-logo" class="logo">
+            </div>
+            <div class="nav__links">
+                <a href="../homepage/#home" class="nav__link active">Home</a>
+                <a href="../homepage/#recommended" class="nav__link">Recommended</a>
+                <a href="../homepage/#products" class="nav__link">Collections</a>
+                <a href="../homepage/#footer" class="nav__link">Contact</a>
+            </div>
+            <div class="nav__icons">
+                <button class="nav__icon matching-btn" id="matchingBtn" title="Matching">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="5" width="6" height="6" rx="1" />
+                        <rect x="15" y="5" width="6" height="6" rx="1" />
+                        <rect x="9" y="13" width="6" height="6" rx="1" />
+                    </svg>
+                </button>
+                <button class="nav__icon" title="Wishlist">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                    </svg>
+                </button>
+                <button class="nav__cart" id="cartBtn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="9" cy="21" r="1" />
+                        <circle cx="20" cy="21" r="1" />
+                        <path d="m1 1 4 4 1 2h14l-1 4H6" />
+                    </svg>
+                    <span class="cart-price">$0</span>
+                </button>
+                <!-- NEW ACCOUNT BUTTON -->
+                <button class="nav__icon account-btn" id="accountBtn" title="Account">
+                    <div class="account-avatar">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                            <circle cx="12" cy="7" r="4" />
+                        </svg>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Product Detail Section -->
+    <section class="product-detail">
+        <div class="container">
+            <!-- Back Navigation -->
+            <div class="back-nav fade-in-section">
+                <button class="back-btn" id="backBtn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="m12 19-7-7 7-7"/>
+                        <path d="m19 12H5"/>
+                    </svg>
+                    Back to Collections
+                </button>
+            </div>
+
+            <div class="product-detail__content">
+                <!-- Product Images -->
+                <div class="product-images fade-in-section">
+                    <div class="product-main-image">
+                        <div class="main-image-container" id="mainImageContainer">
+                            <div class="product-placeholder-image">
+                                <span id="mainImageText">PRODUCT IMAGE</span>
+                            </div>
+                        </div>
+                        <div class="image-nav">
+                            <button class="image-nav-btn" id="prevImageBtn">‹</button>
+                            <button class="image-nav-btn" id="nextImageBtn">›</button>
+                        </div>
+                    </div>
+                    <div class="product-thumbnails" id="productThumbnails">
+                        <!-- Thumbnails will be generated here -->
+                    </div>
+                </div>
+
+                <!-- Product Info -->
+                <div class="product-info fade-in-section">
+                    <div class="product-breadcrumb">
+                        <span class="breadcrumb-item">Home</span>
+                        <span class="breadcrumb-separator">/</span>
+                        <span class="breadcrumb-item" id="productCategory">Category</span>
+                        <span class="breadcrumb-separator">/</span>
+                        <span class="breadcrumb-item active" id="productName">Product</span>
+                    </div>
+
+                    <h1 class="product-title" id="productTitle">Product Name</h1>
+                    <div class="product-price" id="productPrice">$0</div>
+                    
+                    <div class="product-rating">
+                        <div class="stars">
+                            <span class="star active">★</span>
+                            <span class="star active">★</span>
+                            <span class="star active">★</span>
+                            <span class="star active">★</span>
+                            <span class="star">★</span>
+                        </div>
+                        <span class="rating-text">(4.2) • 127 Reviews</span>
+                    </div>
+
+                    <div class="product-description">
+                        <p id="productDescription">Discover the perfect blend of style and comfort with this premium piece from our collection. Crafted with attention to detail and designed for the modern individual.</p>
+                    </div>
+
+                    <!-- Size Selection -->
+                    <div class="product-options">
+                        <div class="option-group">
+                            <label class="option-label">Size</label>
+                            <div class="size-options" id="sizeOptions">
+                                <button class="size-btn">XS</button>
+                                <button class="size-btn active">S</button>
+                                <button class="size-btn">M</button>
+                                <button class="size-btn">L</button>
+                                <button class="size-btn">XL</button>
+                            </div>
+                        </div>
+
+                        <div class="option-group">
+                            <label class="option-label">Color</label>
+                            <div class="color-options" id="colorOptions">
+                                <button class="color-btn active" data-color="black" style="background: #1a1a1a"></button>
+                                <button class="color-btn" data-color="white" style="background: #ffffff"></button>
+                                <button class="color-btn" data-color="gray" style="background: #666666"></button>
+                                <button class="color-btn" data-color="navy" style="background: #1e293b"></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quantity and Add to Cart -->
+                    <div class="product-actions">
+                        <div class="quantity-selector">
+                            <button class="quantity-btn" id="decreaseQty">−</button>
+                            <span class="quantity-display" id="quantityDisplay">1</span>
+                            <button class="quantity-btn" id="increaseQty">+</button>
+                        </div>
+                        <button class="add-to-cart-btn" id="addToCartBtn">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="9" cy="21" r="1"/>
+                                <circle cx="20" cy="21" r="1"/>
+                                <path d="m1 1 4 4 1 2h14l-1 4H6"/>
+                            </svg>
+                            Add to Cart
+                        </button>
+                        <button class="wishlist-btn" id="wishlistBtn" title="Add to Wishlist">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Product Features -->
+                    <div class="product-features">
+                        <div class="feature-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/>
+                                <path d="m3.3 7 8.7 5 8.7-5"/>
+                                <path d="M12 22V12"/>
+                            </svg>
+                            <span>Free shipping on orders over $100</span>
+                        </div>
+                        <div class="feature-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                                <polyline points="9,22 9,12 15,12 15,22"/>
+                            </svg>
+                            <span>30-day return policy</span>
+                        </div>
+                        <div class="feature-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="1" y="3" width="22" height="18" rx="2" ry="2"/>
+                                <line x1="1" y1="9" x2="23" y2="9"/>
+                            </svg>
+                            <span>Secure payment options</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Related Products -->
+            <div class="related-products fade-in-section">
+                <h3 class="section__title">You May Also Like</h3>
+                <div class="related-products__grid" id="relatedProductsGrid">
+                    <!-- Related products will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Matching Overlay (same as main page) -->
+    <div class="matching-overlay" id="matchingOverlay">
+        <div class="matching-container">
+            <button class="matching-close" id="matchingClose">&times;</button>
+            <div class="matching-progress">
+                <span id="matchingProgress">1/10</span>
+            </div>
+            <div class="matching-card-container" id="matchingCardContainer">
+                <!-- Cards will be loaded here -->
+            </div>
+            <div class="matching-instructions">
+                <p>Swipe left or right • Use arrow keys</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="../homepage/app.js"></script>
+    <script src="product.js"></script>
+</body>
+</html>

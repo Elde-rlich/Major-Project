@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FashIntel Boutique - Home</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    {% load static %}
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Playfair Display', 'Georgia', serif;
+            background: #1a1a1a;
+            overflow-x: hidden;
+        }
+        .page-load-animation {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: pageLoadFadeIn 1.2s ease-out forwards;
+        }
+        @keyframes pageLoadFadeIn {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(40px);
+            visibility: hidden;
+            transition: opacity 1s ease-out, transform 1.2s ease-out, visibility 1s ease-out;
+            will-change: opacity, visibility, transform;
+        }
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+            visibility: visible;
+        }
+        .fade-in-left {
+            opacity: 0;
+            transform: translateX(-60px);
+            transition: opacity 1.2s ease-out, transform 1.4s ease-out;
+        }
+        .fade-in-left.is-visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .fade-in-right {
+            opacity: 0;
+            transform: translateX(60px);
+            transition: opacity 1.2s ease-out, transform 1.4s ease-out;
+        }
+        .fade-in-right.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .gallery-row:nth-child(1) { transition-delay: 0.1s; }
+        .gallery-row:nth-child(2) { transition-delay: 0.2s; }
+        .gallery-row:nth-child(3) { transition-delay: 0.3s; }
+        .gallery-row:nth-child(4) { transition-delay: 0.4s; }
+        .landing-container {
+            display: flex;
+            min-height: 100vh;
+            position: relative;
+            justify-content: center;
+            align-items: center;
+        }
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            opacity: 0;
+            animation: fadeInDown 1s ease-out 0.5s forwards;
+        }
+        @keyframes fadeInDown {
+            0% { opacity: 0; transform: translateY(-20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .logo {
+            height: 60px;
+            width: auto;
+            transition: opacity 0.3s ease;
+        }
+        .logo:hover {
+            opacity: 0.8;
+        }
+        .nav-icons {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+        .nav-icon {
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+        .nav-icon:hover {
+            opacity: 0.7;
+        }
+        .login-text {
+            color: white;
+            font-size: 14px;
+            font-weight: 300;
+            font-family: Helvetica;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+            margin-right: 10px;
+            text-decoration: none;
+        }
+        .login-text:hover {
+            opacity: 0.7;
+        }
+        .main-content {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .model-image {
+            width: 50%;
+            height: auto;
+            max-height: 200vh;
+            object-fit: contain;
+            object-position: center;
+            filter: grayscale(100%);
+            transition: filter 0.3s ease;
+            border-radius: 10px;
+        }
+        .main-content:hover .model-image {
+            filter: grayscale(80%);
+        }
+        .content-overlay {
+            position: absolute;
+            top: 60%;
+            left: 30%;
+            transform: translate(-50%, -50%);
+            color: white;
+            text-align: left;
+            z-index: 10;
+            max-width: 800px;
+            width: 100%;
+            padding: 40px;
+            border-radius: 15px;
+        }
+        .line-break {
+            margin: 20px auto 0;
+            height: 1px;
+            margin-left: 0;
+            max-width: 600px;
+            background: white;
+        }
+        .main-headline {
+            color: white;
+            background: linear-gradient(0deg, #000000 78px, #fff0 100%);
+            display: inline-block;
+            font-size: 80px;
+            font-weight: 100;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-family: "helvetica_neue_thin", Helvetica;
+        }
+        .product-categories {
+            display: grid;
+            grid-template-columns: repeat(3, 200px);
+            gap: 20px 20px;
+            margin: 20px auto 60px;
+            font-size: 12px;
+            font-weight: 100;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-family: 'poppins', sans-serif;
+            line-height: 1.6;
+        }
+        .category {
+            cursor: pointer;
+        }
+        .category:hover {
+            opacity: 0.7;
+        }
+        .discover-btn {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: transparent;
+            border: 1px solid white;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 10px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-family: 'Playfair Display', serif;
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation-duration: 0.5s;
+            animation-fill-mode: both;
+        }
+        .discover-btn:hover {
+            background: rgb(255, 254, 254);
+            color: black;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+        .discover-btn:hover::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            animation: wobble 0.8s ease-in-out;
+        }
+        @keyframes wobble {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        .scroll-indicator {
+            position: fixed;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            opacity: 0;
+            animation: fadeInRight 1.5s ease-out 1s forwards;
+        }
+        @keyframes fadeInRight {
+            0% { opacity: 0; transform: translateY(-50%) translateX(30px); }
+            100% { opacity: 1; transform: translateY(-50%) translateX(0); }
+        }
+        .scroll-line {
+            width: 2px;
+            height: 100px;
+            background: #ff0000;
+            position: relative;
+        }
+        .scroll-circle {
+            width: 8px;
+            height: 8px;
+            background: #ff0000;
+            border-radius: 50%;
+        }
+        .scroll-number {
+            color: #ff0000;
+            font-size: 10px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            margin-top: 10px;
+        }
+        .additional-images {
+            background: #1a1a1a;
+            padding: 100px 0;
+        }
+        .image-gallery {
+            display: flex;
+            flex-direction: column;
+            gap: 100px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+        .gallery-row {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+        }
+        .gallery-row.reverse {
+            flex-direction: row-reverse;
+        }
+        .gallery-image {
+            flex: 1;
+            max-width: 500px;
+        }
+        .gallery-image img {
+            width: 100%;
+            height: 600px;
+            object-fit: cover;
+            filter: grayscale(100%);
+            transition: filter 0.3s ease;
+        }
+        .gallery-image:hover img {
+            filter: grayscale(70%);
+        }
+        .gallery-content {
+            flex: 1;
+            color: white;
+            padding: 40px;
+        }
+        .gallery-title {
+            font-size: 36px;
+            font-weight: 300;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+        .gallery-description {
+            font-size: 14px;
+            line-height: 1.8;
+            opacity: 0.8;
+        }
+        .footer {
+            background: #0a0a0a;
+            color: white;
+            padding: 80px 0 40px;
+            margin-top: 100px;
+        }
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 60px;
+        }
+        .footer-section h3 {
+            font-size: 16px;
+            font-weight: 400;
+            margin-bottom: 30px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .footer-links {
+            list-style: none;
+        }
+        .footer-links li {
+            margin-bottom: 15px;
+        }
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+        .footer-links a:hover {
+            opacity: 1;
+        }
+        .social-links {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .social-links i {
+            font-size: 20px;
+            opacity: 0.7;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+        .social-links i:hover {
+            opacity: 1;
+        }
+        .footer-bottom {
+            text-align: center;
+            padding: 40px 0 20px;
+            border-top: 1px solid #333;
+            margin-top: 60px;
+            font-size: 12px;
+            opacity: 0.6;
+        }
+        @media (max-width: 768px) {
+            .model-image {
+                width: 90%;
+                height: auto;
+                max-height: 70vh;
+            }
+            .content-overlay {
+                padding: 20px;
+                max-width: 100%;
+            }
+            .main-headline {
+                font-size: 32px;
+                margin-bottom: 30px;
+            }
+            .discover-btn {
+                width: 100px;
+                height: 100px;
+                font-size: 9px;
+                bottom: 15px;
+            }
+            .scroll-indicator {
+                right: 15px;
+            }
+        }
+        @media (max-width: 480px) {
+            .main-headline {
+                font-size: 24px;
+            }
+            .content-overlay {
+                padding: 15px;
+            }
+            .discover-btn {
+                width: 80px;
+                height: 80px;
+                font-size: 8px;
+                bottom: 10px;
+            }
+            .scroll-indicator {
+                right: 10px;
+            }
+        }
+        .message { color: green; text-align: center; margin: 10px 0; }
+        .error { color: red; text-align: center; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <script>
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        const csrftoken = getCookie('csrftoken');
+    </script>
+
+    <nav class="top-nav">
+        <img src="{% static 'landing/logo.png' %}" alt="FashIntel Boutique Logo" class="logo">
+        <div class="nav-icons">
+            {% if user_id %}
+                <span class="login-text">Welcome, {{ user_id }}!</span>
+                <form action="{% url 'logout' %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="login-text" style="background: none; border: none; cursor: pointer;">Logout</button>
+                </form>
+            {% else %}
+                <a href="{% url 'register' %}" class="login-text">Register</a>
+                <a href="{% url 'login' %}" class="login-text">Login</a>
+            {% endif %}
+            <a href="{% url 'home' %}" class="login-text">Catalog</a>
+            <i class="fas fa-search nav-icon"></i>
+            <i class="fas fa-bars nav-icon"></i>
+        </div>
+    </nav>
+
+    <div class="landing-container page-load-animation">
+        <div class="main-content">
+            <img src="{% static 'landing/model.jpg' %}" alt="Fashion Model" class="model-image">
+            <div class="content-overlay">
+                <h1 class="main-headline">Discover Timeless Elegance</h1>
+                <hr class="line-break">
+                <div class="product-categories">
+                    <div class="category">Jewelry</div>
+                    <div class="category">Dresses</div>
+                    <div class="category">Handbags</div>
+                    <div class="category">Footwear</div>
+                    <div class="category">Outerwear</div>
+                    <div class="category">Accessories</div>
+                    <div class="category">Men's Fashion</div>
+                    <div class="category">Ethnic Wear</div>
+                    <div class="category">Seasonal Picks</div>
+                    <div class="category">Blazers</div>
+                    <div class="category">Scarves</div>
+                    <div class="category">Watches</div>
+                    <div class="category"></div>
+                    <div class="category">Sunglasses</div>
+                </div>
+            </div>
+            <button class="discover-btn" onclick="scrollToGallery()">
+                <span>Explore</span>
+                <span>Our Collections</span>
+                <i class="fas fa-arrow-down"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="scroll-indicator">
+        <div class="scroll-circle"></div>
+        <div class="scroll-line"></div>
+        <div class="scroll-circle"></div>
+        <div class="scroll-number">N°1</div>
+    </div>
+
+    <div class="additional-images" id="gallery">
+        {% if messages %}
+            {% for message in messages %}
+                <p class="{{ message.tags }}">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+        <div class="image-gallery">
+            <div class="gallery-row fade-in-section" data-delay="100">
+                <div class="gallery-image">
+                    <img src="{% static 'landing/model4.jpg' %}" alt="Signature Elegance">
+                </div>
+                <div class="gallery-content">
+                    <h2 class="gallery-title">Signature Elegance</h2>
+                    <p class="gallery-description">
+                        Explore our carefully curated selection of premium fashion pieces. Each item represents the
+                        pinnacle of craftsmanship and design, blending traditional techniques with modern aesthetics.
+                    </p>
+                </div>
+            </div>
+            <div class="gallery-row reverse fade-in-section" data-delay="200">
+                <div class="gallery-image">
+                    <img src="{% static 'landing/model3.jpg' %}" alt="Luxury Accessories">
+                </div>
+                <div class="gallery-content">
+                    <h2 class="gallery-title">Luxury Accessories</h2>
+                    <p class="gallery-description">
+                        Elevate your style with our exclusive range of luxury accessories, from statement jewelry to
+                        elegant scarves, designed to complement your wardrobe.
+                    </p>
+                </div>
+            </div>
+            <div class="gallery-row fade-in-section" data-delay="300">
+                <div class="gallery-image">
+                    <img src="{% static 'landing/model5.jpg' %}" alt="Seasonal Picks">
+                </div>
+                <div class="gallery-content">
+                    <h2 class="gallery-title">Seasonal Picks</h2>
+                    <p class="gallery-description">
+                        Stay ahead of the trends with our seasonal collections, offering fresh perspectives on timeless
+                        elegance for every occasion.
+                    </p>
+                </div>
+            </div>
+            <div class="gallery-row reverse fade-in-section" data-delay="400">
+                <div class="gallery-image">
+                    <img src="{% static 'landing/model2.jpg' %}" alt="Exclusive Designs">
+                </div>
+                <div class="gallery-content">
+                    <h2 class="gallery-title">Exclusive Designs</h2>
+                    <p class="gallery-description">
+                        Discover limited-edition pieces that showcase the artistry and innovation of contemporary
+                        fashion, each telling a unique story of creativity.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Shop</h3>
+                <ul class="footer-links">
+                    <li><a href="{% url 'home' %}?category=Jewelry">Jewelry</a></li>
+                    <li><a href="{% url 'home' %}?category=Dresses">Dresses</a></li>
+                    <li><a href="{% url 'home' %}?category=Handbags">Handbags</a></li>
+                    <li><a href="{% url 'home' %}?category=Footwear">Footwear</a></li>
+                    <li><a href="{% url 'home' %}">All Collections</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>About</h3>
+                <ul class="footer-links">
+                    <li><a href="#about">Our Mission</a></li>
+                    <li><a href="#craftsmanship">Craftsmanship</a></li>
+                    <li><a href="#sustainability">Sustainability</a></li>
+                    <li><a href="#careers">Careers</a></li>
+                    <li><a href="#press">Press</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Support</h3>
+                <ul class="footer-links">
+                    <li><a href="#contact">Contact Us</a></li>
+                    <li><a href="#shipping">Shipping Info</a></li>
+                    <li><a href="#returns">Returns</a></li>
+                    <li><a href="#size-guide">Size Guide</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Connect</h3>
+                <ul class="footer-links">
+                    <li><a href="#newsletter">Newsletter</a></li>
+                    <li><a href="{% url 'login' %}">My Account</a></li>
+                    <li><a href="#wishlist">Wishlist</a></li>
+                </ul>
+                <div class="social-links">
+                    <a href="https://instagram.com"><i class="fab fa-instagram"></i></a>
+                    <a href="https://facebook.com"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://twitter.com"><i class="fab fa-twitter"></i></a>
+                    <a href="https://pinterest.com"><i class="fab fa-pinterest"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 FashIntel Boutique. All rights reserved. | <a href="#privacy">Privacy Policy</a> | <a href="#terms">Terms of Service</a></p>
+        </div>
+    </footer>
+
+    <script>
+        const observerOptions = {
+            threshold: 0.15,
+            rootMargin: '0px 0px -100px 0px'
+        };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('is-visible');
+                    }, entry.target.dataset.delay || 0);
+                }
+            });
+        }, observerOptions);
+        document.addEventListener('DOMContentLoaded', function () {
+            const fadeElements = document.querySelectorAll('.fade-in-section, .fade-in-left, .fade-in-right');
+            fadeElements.forEach(el => observer.observe(el));
+            setTimeout(() => {
+                document.querySelectorAll('.fade-in-left, .fade-in-right').forEach(el => {
+                    el.classList.add('is-visible');
+                });
+            }, 800);
+        });
+        function scrollToGallery() {
+            document.getElementById('gallery').scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+        document.querySelectorAll('.category').forEach(category => {
+            category.addEventListener('click', function () {
+                const categoryName = this.textContent;
+                window.location.href = "{% url 'home' %}?category=" + encodeURIComponent(categoryName);
+            });
+        });
+        document.querySelectorAll('.nav-icon').forEach(icon => {
+            icon.addEventListener('click', function () {
+                console.log('Nav icon clicked');
+            });
+        });
+        document.querySelectorAll('.footer-links a').forEach(link => {
+            link.addEventListener('click', function (e) {
+                if (this.getAttribute('href').startsWith('#')) {
+                    e.preventDefault();
+                    console.log('Footer link clicked:', this.textContent);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

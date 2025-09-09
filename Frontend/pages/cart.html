@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart - TRUE CLASSICS</title>
+    <link rel="stylesheet" href="../homepage/style.css">
+</head>
+<body>
+    <!-- Header (same as main page) -->
+    <header class="header">
+        <div class="nav">
+            <div class="nav__logo">
+                <img src="../homepage/logo.png" alt="Bingo-logo" class="logo">
+            </div>
+            <div class="nav__links">
+                <a href="../homepage/#home" class="nav__link active">Home</a>
+                <a href="../homepage/#recommended" class="nav__link">Recommended</a>
+                <a href="../homepage/#products" class="nav__link">Collections</a>
+                <a href="../homepage/#footer" class="nav__link">Contact</a>
+            </div>
+            <div class="nav__icons">
+                <button class="nav__icon matching-btn" id="matchingBtn" title="Matching">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="5" width="6" height="6" rx="1" />
+                        <rect x="15" y="5" width="6" height="6" rx="1" />
+                        <rect x="9" y="13" width="6" height="6" rx="1" />
+                    </svg>
+                </button>
+                <button class="nav__icon" title="Wishlist">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                    </svg>
+                </button>
+                <button class="nav__cart" id="cartBtn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="9" cy="21" r="1" />
+                        <circle cx="20" cy="21" r="1" />
+                        <path d="m1 1 4 4 1 2h14l-1 4H6" />
+                    </svg>
+                    <span class="cart-price">$0</span>
+                </button>
+                <!-- NEW ACCOUNT BUTTON -->
+                <button class="nav__icon account-btn" id="accountBtn" title="Account">
+                    <div class="account-avatar">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                            <circle cx="12" cy="7" r="4" />
+                        </svg>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Cart Section -->
+    <section class="cart-page">
+        <div class="container">
+            <!-- Back Navigation -->
+            <div class="back-nav fade-in-section">
+                <button class="back-btn" id="backBtn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="m12 19-7-7 7-7"/>
+                        <path d="m19 12H5"/>
+                    </svg>
+                    Continue Shopping
+                </button>
+            </div>
+
+            <!-- Cart Header -->
+            <div class="cart-header fade-in-section">
+                <h1 class="cart-title">Shopping Cart</h1>
+                <div class="cart-stats">
+                    <span class="cart-count" id="cartCount">0 items</span>
+                    <button class="clear-cart-btn" id="clearCartBtn">Clear Cart</button>
+                </div>
+            </div>
+
+            <!-- Cart Content -->
+            <div class="cart-content">
+                <!-- Empty State -->
+                <div class="empty-cart" id="emptyCart">
+                    <div class="empty-icon">
+                        <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <circle cx="9" cy="21" r="1"/>
+                            <circle cx="20" cy="21" r="1"/>
+                            <path d="m1 1 4 4 1 2h14l-1 4H6"/>
+                        </svg>
+                    </div>
+                    <h2 class="empty-title">Your cart is empty</h2>
+                    <p class="empty-message">Discover our amazing collection and find something you love. Start adding items to your cart!</p>
+                    <a href="../homepage/index.html#products" class="shop-now-btn">Start Shopping</a>
+                </div>
+
+                <!-- Cart Items -->
+                <div class="cart-main" id="cartMain">
+                    <div class="cart-items" id="cartItems">
+                        <!-- Cart items will be loaded here -->
+                    </div>
+
+                    <!-- Cart Summary -->
+                    <div class="cart-summary fade-in-section">
+                        <div class="summary-card">
+                            <h3 class="summary-title">Order Summary</h3>
+                            
+                            <div class="summary-row">
+                                <span>Subtotal</span>
+                                <span id="subtotalAmount">$0</span>
+                            </div>
+                            
+                            <div class="summary-row">
+                                <span>Shipping</span>
+                                <span id="shippingAmount">Free</span>
+                            </div>
+                            
+                            <div class="summary-row">
+                                <span>Tax</span>
+                                <span id="taxAmount">$0</span>
+                            </div>
+                            
+                            <div class="summary-divider"></div>
+                            
+                            <div class="summary-row total">
+                                <span>Total</span>
+                                <span id="totalAmount">$0</span>
+                            </div>
+                            
+                            <div class="checkout-actions">
+                                <button class="checkout-btn" id="checkoutBtn">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="1" y="3" width="22" height="18" rx="2" ry="2"/>
+                                        <line x1="1" y1="9" x2="23" y2="9"/>
+                                    </svg>
+                                    Proceed to Checkout
+                                </button>
+                                
+                                <div class="payment-methods">
+                                    <small>We accept</small>
+                                    <div class="payment-icons">
+                                        <span class="payment-icon">💳</span>
+                                        <span class="payment-icon">🏦</span>
+                                        <span class="payment-icon">📱</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Promo Code -->
+                        <div class="promo-section">
+                            <div class="promo-input-container">
+                                <input type="text" class="promo-input" id="promoInput" placeholder="Enter promo code">
+                                <button class="apply-promo-btn" id="applyPromoBtn">Apply</button>
+                            </div>
+                            <div class="promo-message" id="promoMessage"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer (same as other pages) -->
+    <footer class="footer" id="footer">
+        <div class="container">
+            <div class="footer__content">
+                <div class="footer__section">
+                    <h3 class="footer__title">TRUE CLASSICS</h3>
+                    <p>Timeless fashion for the modern individual. Quality, style, and elegance in every piece.</p>
+                </div>
+                <div class="footer__section">
+                    <h4 class="footer__title">Shop</h4>
+                    <ul class="footer__links">
+                        <li><a href="#" class="footer__link">Men's Collection</a></li>
+                        <li><a href="#" class="footer__link">Women's Collection</a></li>
+                        <li><a href="#" class="footer__link">New Arrivals</a></li>
+                        <li><a href="#" class="footer__link">Sale</a></li>
+                    </ul>
+                </div>
+                <div class="footer__section">
+                    <h4 class="footer__title">Support</h4>
+                    <ul class="footer__links">
+                        <li><a href="#" class="footer__link">Contact Us</a></li>
+                        <li><a href="#" class="footer__link">Size Guide</a></li>
+                        <li><a href="#" class="footer__link">Returns</a></li>
+                        <li><a href="#" class="footer__link">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer__section">
+                    <h4 class="footer__title">Connect</h4>
+                    <div class="footer__social">
+                        <p>Follow us for the latest updates</p>
+                        <div class="social-links">
+                            <a href="#" class="social-link">Instagram</a>
+                            <a href="#" class="social-link">Twitter</a>
+                            <a href="#" class="social-link">Facebook</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer__bottom">
+                <p>&copy; 2024 TRUE CLASSICS. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Matching Overlay (same as other pages) -->
+    <div class="matching-overlay" id="matchingOverlay">
+        <div class="matching-container">
+            <button class="matching-close" id="matchingClose">&times;</button>
+            <div class="matching-progress">
+                <span id="matchingProgress">1/10</span>
+            </div>
+            <div class="matching-card-container" id="matchingCardContainer">
+                <!-- Cards will be loaded here -->
+            </div>
+            <div class="matching-instructions">
+                <p>Swipe left or right • Use arrow keys</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="../homepage/app.js"></script>
+    <script src="cart.js"></script>
+</body>
+</html>
