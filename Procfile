@@ -1,1 +1,1 @@
-web: gunicorn fashintel.wsgi:application --host 0.0.0.0 --port $PORT
+web: gunicorn fashintel.wsgi:application --bind 0.0.0.0:$PORT
