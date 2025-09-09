@@ -29,4 +29,4 @@ urlpatterns = [
     #path('catalog/', include('recommender.urls')),
     #path('', include('landing.urls')),
     path('', simple_test, name = 'test')
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] #+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
