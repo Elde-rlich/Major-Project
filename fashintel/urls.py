@@ -49,9 +49,8 @@ def safe_debug_view(request):
         }, status=500)
 
 urlpatterns = [
-    # path('admin/', admin.site.urls),
-    # path('auth/', include('authapp.urls')),
-    # path('catalog/', include('recommender.urls')),
-    #path('', include('landing.urls')),
-    path('', safe_debug_view, name='safe'),
-] #+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path('admin/', admin.site.urls),
+    path('auth/', include('authapp.urls')),
+    path('catalog/', include('recommender.urls')),
+    path('', include('landing.urls')),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
