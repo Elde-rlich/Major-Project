@@ -34,10 +34,10 @@ class MongoDBClient:
         return self._client
     
     def get_database(self):
-        return self.get_client().get_database()
+        return self.get_client()['fashion_db']
     
     def get_users_collection(self):
-        return self.get_database().users
+        return self.get_database()['users']
 
 # Global instance
 client_instance = MongoDBClient()
