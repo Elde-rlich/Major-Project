@@ -19,7 +19,14 @@ logger = logging.getLogger(__name__)
 
 MONGODB_URI = config('MONGODB_URI')
 
-client = MongoClient(MONGODB_URI)
+client = MongoClient(
+    MONGODB_URI,
+    serverSelectionTimeoutMS=5000,  # 5 seconds timeout
+    connectTimeoutMS=5000,          # 5 seconds to connect
+    socketTimeoutMS=5000,           # 5 seconds for socket operations
+    maxPoolSize=10,                 # Connection pool size
+    retryWrites=True
+)
 db = client['fashion_db']
 interactions = db['interactions']
 products = db['products']
