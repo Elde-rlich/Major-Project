@@ -52,5 +52,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/', include('authapp.urls')),
     path('catalog/', include('recommender.urls')),
-    path('', include('landing.urls')),
+    path('/', include('landing.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
