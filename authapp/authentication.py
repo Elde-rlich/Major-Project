@@ -2,14 +2,22 @@ from django.contrib.auth.backends import BaseBackend
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import check_password
 from pymongo import MongoClient
+from recommender.utils import db, users
+from mongo_client import client_instance, client
+import logging
+
 
 # Your MongoDB connection
-client = MongoClient('mongodb://localhost:27017/')
-db = client['fashion_db']
-users = db['users']
+#client = MongoClient('mongodb://localhost:27017/')
+# db = client['fashion_db']
+# users = db['users']
+
+logger = logging.getLogger(__name__)
+
 
 class MongoBackend(BaseBackend):
     def authenticate(self, request, username=None, password=None):
+        users = client_instance.get_users_collection()
         try:
             # Find user in MongoDB (works for both customer and business users)
             mongo_user = users.find_one({
@@ -34,7 +42,7 @@ class MongoBackend(BaseBackend):
                     )
                 return user
         except Exception as e:
-            print(f"Authentication error: {e}")
+            logger.error(f"Authentication error: {e}")
             return None
         return None
 

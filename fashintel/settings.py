@@ -89,6 +89,15 @@ WSGI_APPLICATION = 'fashintel.wsgi.application'
 #      }
 # }
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'djongo',
+        'CLIENT': {
+            'host': config('MONGODB_URI', default='mongodb+srv://sushanthbende_db_user:Bingo%40123@fashintel.e8wm5oy.mongodb.net/?retryWrites=true&w=majority&appName=Fashintel'),
+        },
+    }
+}
+
 AUTHENTICATION_BACKENDS = [
     'authapp.authentication.MongoBackend',  # Your custom backend
     'django.contrib.auth.backends.ModelBackend',  # Default Django backend (fallback)
