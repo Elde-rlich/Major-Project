@@ -19,9 +19,39 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
+from django.http import JsonResponse
+import traceback
+import sys
+
+
+def safe_debug_view(request):
+    try:
+        import django
+        import pymongo
+        import lightfm
+        
+        return JsonResponse({
+            "status": "SUCCESS",
+            "message": "Django Fashion Recommender is working!",
+            "path": request.path,
+            "django_version": django.get_version(),
+            "python_version": sys.version,
+            "pymongo_available": bool(pymongo),
+            "lightfm_available": bool(lightfm),
+            "debug": True
+        })
+    except Exception as e:
+        return JsonResponse({
+            "status": "ERROR",
+            "error": str(e),
+            "traceback": traceback.format_exc(),
+            "path": request.path
+        }, status=500)
+
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('auth/', include('authapp.urls')),
-    path('catalog/', include('recommender.urls')),
-    path('', include('landing.urls')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    # path('admin/', admin.site.urls),
+    # path('auth/', include('authapp.urls')),
+    # path('catalog/', include('recommender.urls')),
+    #path('', include('landing.urls')),
+    path('', safe_debug_view, name='safe'),
+] #+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
