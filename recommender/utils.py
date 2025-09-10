@@ -3,6 +3,7 @@ import logging
 import pandas as pd
 import numpy as np
 from pymongo import MongoClient
+from mongo_client import client
 from lightfm import LightFM
 from lightfm.data import Dataset
 from decouple import config
@@ -17,16 +18,9 @@ logger = logging.getLogger(__name__)
 # MongoDB connection
 #client = MongoClient('mongodb://localhost:27017/')
 
-MONGODB_URI = config('MONGODB_URI')
+# MONGODB_URI = config('MONGODB_URI')
 
-client = MongoClient(
-    MONGODB_URI,
-    serverSelectionTimeoutMS=5000,  # 5 seconds timeout
-    connectTimeoutMS=5000,          # 5 seconds to connect
-    socketTimeoutMS=5000,           # 5 seconds for socket operations
-    maxPoolSize=10,                 # Connection pool size
-    retryWrites=True
-)
+# client = MongoClient(MONGODB_URI)
 db = client['fashion_db']
 interactions = db['interactions']
 products = db['products']
