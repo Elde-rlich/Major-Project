@@ -5,7 +5,162 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bingo Dashboard</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'authapp/style.css' %}"> 
+    <!-- <link rel="stylesheet" type="text/css" href="{% static 'authapp/style.css' %}">  -->
+    <style>
+        * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #fdf3e7; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            display: flex;
+            width: 70%;
+            height: 90%;
+            background-color: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(138, 133, 133, 0.3);
+        }
+
+        .left-section {
+            width: 50%;
+            padding: 40px;
+            text-align: center;
+            align-items: center;
+        }
+
+        .right-section {
+            width: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f7f8fa;
+        }
+
+        .background-image {
+            width: 90%;
+            border-radius: 10px;
+        }
+
+        .logo {
+            width: 120px;
+        }
+
+        h2 {
+            margin-top: 20px;
+            font-size: 32px;
+            color: #000;
+        }
+
+        p {
+            margin-top: 10px;
+            color: #666;
+        }
+
+        .google-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            padding: 10px 20px;
+            margin: 0 auto;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .google-btn img {
+            width: 20px;
+            margin-right: 10px;
+        }
+
+        .google-btn:hover {
+            background-color: #e0e0e0;
+            transform: scale(1.05);
+        }
+
+        .google-btn:active {
+            background-color: #d4d4d4;
+        }
+
+        .or-divider {
+            text-align: center;
+            margin: 15px 0;
+            color: #bbb;
+        }
+
+        .registration-form input {
+            width: 80%;
+            padding: 10px;
+            margin: 10px auto;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .registration-form input:hover {
+            border-color: #888;
+        }
+
+        .registration-form input:focus {
+            border-color: #333;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+            outline: none;
+        }
+
+
+
+        .register-btn {
+            width: 80%;
+            background-color: #000;
+            color: white;
+            padding: 12px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .register-btn:hover {
+            background-color: #333;
+            transform: scale(1.05);
+        }
+
+        .register-btn:active {
+            background-color: #111;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .login-link a {
+            color: #0000EE;
+            text-decoration: none;
+        }
+
+        .login-link a:visited{
+            color: #551A8B;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
