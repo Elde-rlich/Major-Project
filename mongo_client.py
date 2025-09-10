@@ -40,4 +40,5 @@ class MongoDBClient:
         return self.get_database().users
 
 # Global instance
-client = MongoDBClient()
+client_instance = MongoDBClient()
+client = client_instance.get_client()

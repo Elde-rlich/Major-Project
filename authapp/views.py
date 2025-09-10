@@ -6,7 +6,7 @@ from recommender.utils import users, generate_user_id
 from django.contrib.auth import authenticate, login as auth_login
 from .forms import CustomerRegisterForm, BusinessRegisterForm, UserTypeSelectionForm
 from pymongo.errors import ServerSelectionTimeoutError, ConnectionFailure
-from mongo_client import client
+from mongo_client import client_instance
 import logging
 from django.views.decorators.http import require_POST
 from django.http import JsonResponse
@@ -19,7 +19,7 @@ def register(request):
         user_type = request.POST.get('user_type')
         
         try:
-            users = client.get_users_collection()
+            users = client_instance.get_users_collection()
             if user_type == 'customer':
                 username = request.POST.get('username')
                 password = request.POST.get('password')
@@ -104,7 +104,7 @@ def login(request):
         user_type = request.POST.get('user_type')
         
         try:
-            users = client.get_users_collection()
+            users = client_instance.get_users_collection()
             if user_type == 'customer':
                 username = request.POST.get('username')
                 password = request.POST.get('password')
