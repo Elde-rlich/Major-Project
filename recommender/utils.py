@@ -104,13 +104,7 @@ def parse_product_attributes(row, mappings):
 
 def load_myntra_dataset():
     try:
-        csv_file = os.getenv('DATASET_PATH', 'C:/Users/HP/Documents/College/maj - proj/Dataset/cleaned_products1.csv')
-        logger.info(f"Loading dataset from {csv_file}")
-        
-        if not os.path.exists(csv_file):
-            logger.error(f"Dataset file not found: {csv_file}")
-            return False, None
-        
+        # Check if collections are already populated
         product_count = products.count_documents({})
         feature_count = feature_mappings.count_documents({})
         if product_count > 0 and feature_count > 0:
@@ -121,32 +115,84 @@ def load_myntra_dataset():
                 'brand': 1, 
                 'product_attributes.color': 1
             })))
-            product_df = product_df.rename(columns={'product_attributes.category': 'category'})
+            if 'product_attributes.category' in product_df.columns:
+                product_df = product_df.rename(columns={'product_attributes.category': 'category'})
             return True, product_df
         
-        df = pd.read_csv(csv_file)
+        # Modified: Load existing products from MongoDB instead of CSV
+        logger.info("Loading products from MongoDB collection")
+        
+        # Get all existing products from MongoDB
+        existing_products = list(products.find({}))
+        
+        if not existing_products:
+            logger.warning("No products found in MongoDB collection. Database needs to be populated first.")
+            # Return empty DataFrame with correct structure
+            product_df = pd.DataFrame(columns=['product_id', 'category', 'brand', 'color'])
+            return True, product_df
+        
+        # Convert MongoDB products to DataFrame (simulating CSV structure)
+        df_records = []
+        for product in existing_products:
+            # Extract data from MongoDB document to match CSV format
+            record = {
+                'id': product.get('product_id', ''),
+                'sub_category': product.get('product_attributes', {}).get('category', 'unknown') if isinstance(product.get('product_attributes'), dict) else 'unknown',
+                'brand': product.get('brand', 'unknown'),
+                'color': product.get('product_attributes', {}).get('color', 'unknown') if isinstance(product.get('product_attributes'), dict) else 'unknown',
+                'fit': product.get('fit', 'unknown'),
+                'occasion': product.get('occasion', 'unknown'),
+                'material': product.get('material', 'unknown'),
+                'main_category': product.get('product_attributes', {}).get('main_category', 'unknown') if isinstance(product.get('product_attributes'), dict) else 'unknown',
+                'sleeve_length': product.get('sleeve_length', 'unknown'),
+                'title': product.get('title', 'unknown'),
+                'neck': product.get('neck', 'unknown'),
+                'waist_rise': product.get('waist_rise', 'unknown'),
+                'closure': product.get('closure', 'unknown'),
+                'print_or_pattern_type': product.get('print_or_pattern_type', 'unknown'),
+                'shape': product.get('shape', 'unknown'),
+                'length': product.get('length', 'unknown'),
+                'collar': product.get('collar', 'unknown'),
+                'preprocessed_product_details': product.get('preprocessed_product_details', 'unknown')
+            }
+            df_records.append(record)
+        
+        # Create DataFrame from MongoDB data
+        df = pd.DataFrame(df_records)
+        
         if df.empty:
-            logger.error("CSV file is empty")
+            logger.error("No valid product data found in MongoDB")
             return False, None
         
-        logger.info(f"Loaded CSV with {len(df)} products")
+        logger.info(f"Loaded {len(df)} products from MongoDB")
         
+        # Check for duplicates
         duplicates = df[df['id'].duplicated(keep=False)]
         if not duplicates.empty:
             logger.warning(f"Found {len(duplicates)} duplicate id values:\n{duplicates[['id']].head()}")
             df = df.drop_duplicates(subset='id', keep='first')
             logger.info(f"Kept first occurrence of {len(df)} unique products")
         
+        # Check if pattern column exists
         if 'pattern' not in df.columns or df['pattern'].isna().all():
-            logger.warning("No pattern data in CSV, excluding pattern from product_attributes")
+            logger.warning("No pattern data available, excluding pattern from product_attributes")
         
+        # Create product DataFrame for return
         product_df = df[['id', 'sub_category', 'brand', 'color']].copy()
         product_df = product_df.rename(columns={'id': 'product_id', 'sub_category': 'category'})
         
-        mappings = create_feature_mappings(df)
-        feature_mappings.insert_one({'mappings': mappings})
-        logger.info("Stored feature mappings")
+        # Check if feature mappings need to be created
+        existing_mappings = feature_mappings.find_one({})
+        if not existing_mappings:
+            logger.info("Creating feature mappings from MongoDB data")
+            mappings = create_feature_mappings(df)
+            feature_mappings.insert_one({'mappings': mappings})
+            logger.info("Stored feature mappings")
+        else:
+            mappings = existing_mappings['mappings']
+            logger.info("Using existing feature mappings")
         
+        # Fill NaN values
         df.fillna({
             'fit': 'unknown', 
             'occasion': 'unknown', 
@@ -167,16 +213,17 @@ def load_myntra_dataset():
             'preprocessed_product_details': 'unknown'
         }, inplace=True)
         
+        # Update/insert products (this section remains the same as it's working with the DataFrame)
         records = []
         for _, row in df.iterrows():
-            if pd.isna(row['id']):
+            if pd.isna(row['id']) or str(row['id']).strip() == '':
                 logger.warning(f"Missing id in row: {row.to_dict()}")
                 continue
             title = f"{row['brand']} {row['sub_category']} ({row['color']}, {row['fit']}, {row['occasion']})"
             record = {
                 'product_id': str(row['id']),
                 'title': title,
-                'image_url': f"/images/{row['id']}.jpg",  # Keep original image_url
+                'image_url': f"/images/{row['id']}.jpg",
                 'url': '#',
                 'product_attributes': parse_product_attributes(row, mappings),
                 'brand': str(row['brand']).lower(),
@@ -206,20 +253,24 @@ def load_myntra_dataset():
                     updated += 1
                 elif result.upserted_id:
                     inserted += 1
-            products.create_index([('product_id', 1)], unique=True)
+            
+            # Create index if it doesn't exist
+            try:
+                products.create_index([('product_id', 1)], unique=True)
+            except:
+                pass  # Index might already exist
+                
             logger.info(f"Inserted {inserted} new products, updated {updated} existing products in MongoDB")
         else:
-            logger.error("No valid products loaded")
+            logger.error("No valid products processed")
             return False, None
         
         return True, product_df
-    
-    except FileNotFoundError:
-        logger.error(f"Dataset file not found: {csv_file}")
-        return False, None
+        
     except Exception as e:
         logger.error(f"Error loading dataset: {str(e)}")
         return False, None
+
 
 def load_lightfm_model():
     try:
