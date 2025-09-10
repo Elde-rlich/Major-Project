@@ -146,7 +146,7 @@ STORAGES = {
 MEDIA_URL = '/images/'
 MEDIA_ROOT = BASE_DIR / 'images'
 
-
+MONGODB_URI = 'mongodb+srv://sushanthbende_db_user:Bingo%40123@fashintel.e8wm5oy.mongodb.net/?retryWrites=true&w=majority&appName=Fashintel'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -170,28 +170,28 @@ LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'formatters': {
-        'standard': {
-            'format': '%(asctime)s - %(levelname)s - %(message)s',
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style': '{',
         },
     },
     'handlers': {
-        'file': {
-            'level': 'INFO',
-            'class': 'logging.FileHandler',
-            'filename': 'data_issues.log',
-            'formatter': 'standard',
-        },
         'console': {
-            'level': 'INFO',
+            'level': 'DEBUG',
             'class': 'logging.StreamHandler',
-            'formatter': 'standard',
+            'formatter': 'verbose',
         },
     },
     'loggers': {
-        '': {
-            'handlers': ['file', 'console'],
-            'level': 'INFO',
+        'django': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
             'propagate': True,
+        },
+        '': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
         },
     },
 }
