@@ -111,9 +111,22 @@ def home(request):
     message = None
     error = None
     if request.method == 'POST':
-        interaction_type = request.POST.get('interaction_type')
-        product_id = request.POST.get('product_id')
+        # Check if it's an AJAX request
+        if request.headers.get('Content-Type') == 'application/json':
+            # Handle AJAX request
+            try:
+                data = json.loads(request.body)
+                interaction_type = data.get('interaction_type')
+                product_id = data.get('product_id')
+            except json.JSONDecodeError:
+                return JsonResponse({'error': 'Invalid JSON'}, status=400)
+        else:
+            # Handle regular form submission (your existing code)
+            interaction_type = request.POST.get('interaction_type')
+            product_id = request.POST.get('product_id')
 
+        user_id = request.session.get('user_id')
+        
         logger.info(f"  - interaction_type: {interaction_type}")
         logger.info(f"  - product_id: {product_id}")
         logger.info(f"  - user_id: {user_id}")
@@ -129,9 +142,18 @@ def home(request):
             try:
                 interactions.insert_one(data)
                 message = f"Interaction ({interaction_type}) logged successfully!"
+                
+                # Return JSON for AJAX requests
+                if request.headers.get('Content-Type') == 'application/json':
+                    return JsonResponse({'success': True, 'message': message})
+                    
             except Exception as e:
                 logger.error(f"Error logging interaction: {str(e)}")
                 error = "Error logging interaction"
+                
+                # Return JSON error for AJAX requests
+                if request.headers.get('Content-Type') == 'application/json':
+                    return JsonResponse({'success': False, 'error': error}, status=500)
     
     try:
         recommendations = get_recommendations(
