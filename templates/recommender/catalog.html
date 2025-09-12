@@ -100,14 +100,14 @@
 
     <div class="container">
         <!-- Messages -->
-        {% if message %}
+        {% if message and not request.is_ajax %}
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 {{ message }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
         {% endif %}
         
-        {% if error %}
+        {% if error amd not request.is_ajax %}
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                 {{ error }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
@@ -277,29 +277,94 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
     <!-- Custom JavaScript for interactions -->
-    <script>
-        // Debug form submissions
-        document.querySelectorAll('form').forEach(form => {
-            form.addEventListener('submit', function(e) {
-                console.log('Form being submitted:', this);
-                console.log('Form data:');
-                const formData = new FormData(this);
-                for (let [key, value] of formData.entries()) {
-                    console.log(`${key}: ${value}`);
-                }
-            });
-        });
+<script>
+// CSRF Token setup
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
 
-        // Auto-dismiss alerts
-        setTimeout(() => {
-            const alerts = document.querySelectorAll('.alert');
-            alerts.forEach(alert => {
-                if (alert.querySelector('.btn-close')) {
-                    const bsAlert = new bootstrap.Alert(alert);
-                    bsAlert.close();
+const csrftoken = getCookie('csrftoken');
+
+// Handle interaction forms with AJAX
+document.querySelectorAll('.interaction-buttons form').forEach(form => {
+    form.addEventListener('submit', function(e) {
+        e.preventDefault(); // Prevent page refresh
+        
+        console.log('Form being submitted:', this);
+        
+        // Get form data
+        const formData = new FormData(this);
+        const data = {};
+        
+        for (let [key, value] of formData.entries()) {
+            if (key !== 'csrfmiddlewaretoken') { // Skip CSRF token
+                console.log(`${key}: ${value}`);
+                data[key] = value;
+            }
+        }
+        
+        // Send to home view via AJAX
+        fetch("{% url 'home' %}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken,
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(result => {
+            if (result.success) {
+                console.log('Interaction logged successfully:', result);
+                showToast(result.message);
+                
+                // Optional: Visual feedback on button
+                const button = e.target.querySelector('button[type="submit"][name="interaction_type"]');
+                if (button) {
+                    button.style.opacity = '0.7';
+                    setTimeout(() => button.style.opacity = '1', 200);
                 }
-            });
-        }, 5000);
-    </script>
+            } else {
+                console.error('Error:', result.error);
+                showToast('Failed to log interaction');
+            }
+        })
+        .catch(error => {
+            console.error('Error logging interaction:', error);
+            showToast('Failed to log interaction');
+        });
+    });
+});
+
+// Simple toast notification
+function showToast(message) {
+    const toast = document.createElement('div');
+    toast.textContent = message;
+    toast.style.cssText = `
+        position: fixed; top: 20px; right: 20px;
+        background: #28a745; color: white;
+        padding: 10px 15px; border-radius: 5px;
+        z-index: 1000; transition: opacity 0.3s;
+    `;
+    
+    document.body.appendChild(toast);
+    
+    setTimeout(() => {
+        toast.style.opacity = '0';
+        setTimeout(() => document.body.removeChild(toast), 300);
+    }, 2000);
+}
+</script>
 </body>
 </html>
