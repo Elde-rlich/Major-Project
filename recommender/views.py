@@ -110,9 +110,20 @@ def home(request):
     
     message = None
     error = None
+    
     if request.method == 'POST':
-        # Check if it's an AJAX request
-        if request.headers.get('Content-Type') == 'application/json':
+        # Better AJAX detection
+        is_ajax = (
+            request.headers.get('X-Requested-With') == 'XMLHttpRequest' or
+            request.headers.get('Content-Type') == 'application/json' or
+            request.GET.get('ajax') == '1'  # Fallback
+        )
+        
+        print(f"DEBUG: is_ajax = {is_ajax}")  # Add this for debugging
+        print(f"DEBUG: Content-Type = {request.headers.get('Content-Type')}")
+        print(f"DEBUG: X-Requested-With = {request.headers.get('X-Requested-With')}")
+        
+        if is_ajax:
             # Handle AJAX request
             try:
                 data = json.loads(request.body)
@@ -121,7 +132,7 @@ def home(request):
             except json.JSONDecodeError:
                 return JsonResponse({'error': 'Invalid JSON'}, status=400)
         else:
-            # Handle regular form submission (your existing code)
+            # Handle regular form submission
             interaction_type = request.POST.get('interaction_type')
             product_id = request.POST.get('product_id')
 
@@ -141,19 +152,24 @@ def home(request):
             }
             try:
                 interactions.insert_one(data)
-                message = f"Interaction ({interaction_type}) logged successfully!"
+                success_msg = f"Interaction ({interaction_type}) logged successfully!"
                 
-                # Return JSON for AJAX requests
-                if request.headers.get('Content-Type') == 'application/json':
-                    return JsonResponse({'success': True, 'message': message})
+                # For AJAX requests, return JSON (MUST return here!)
+                if is_ajax:
+                    print("DEBUG: Returning JSON response")  # Debug
+                    return JsonResponse({'success': True, 'message': success_msg})
+                else:
+                    # For regular requests, set message for template
+                    message = success_msg
                     
             except Exception as e:
                 logger.error(f"Error logging interaction: {str(e)}")
-                error = "Error logging interaction"
+                error_msg = "Error logging interaction"
                 
-                # Return JSON error for AJAX requests
-                if request.headers.get('Content-Type') == 'application/json':
-                    return JsonResponse({'success': False, 'error': error}, status=500)
+                if is_ajax:
+                    return JsonResponse({'success': False, 'error': error_msg}, status=500)
+                else:
+                    error = error_msg
     
     try:
         recommendations = get_recommendations(

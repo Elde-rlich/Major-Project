@@ -320,6 +320,7 @@ document.querySelectorAll('.interaction-buttons form').forEach(form => {
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRFToken': csrftoken,
+                'X-Requested-With': 'XMLHttpRequest',
             },
             body: JSON.stringify(data)
         })
