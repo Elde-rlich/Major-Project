@@ -107,7 +107,7 @@
             </div>
         {% endif %}
         
-        {% if error amd not request.is_ajax %}
+        {% if error and not request.is_ajax %}
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                 {{ error }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
