@@ -137,6 +137,10 @@
                                         <form method="POST" action="{% url 'home' %}" class="d-inline">
                                             {% csrf_token %}
                                             <input type="hidden" name="product_id" value="{{ rec.product_id }}">
+                                            <button type="submit" name="interaction_type" value="click" 
+                                                    class="btn btn-sm btn-outline-info interaction-btn">
+                                                <i class="fas fa-eye"></i> View
+                                            </button>
                                             <button type="submit" name="interaction_type" value="like" 
                                                     class="btn btn-sm btn-outline-success interaction-btn">
                                                 <i class="fas fa-heart"></i> Like
@@ -144,6 +148,10 @@
                                             <button type="submit" name="interaction_type" value="cart" 
                                                     class="btn btn-sm btn-outline-primary interaction-btn">
                                                 <i class="fas fa-shopping-cart"></i> Cart
+                                            </button>
+                                            <button type="submit" name="interaction_type" value="dislike" 
+                                                    class="btn btn-sm btn-outline-danger interaction-btn">
+                                                <i class="fas fa-thumbs-down"></i> Dislike
                                             </button>
                                         </form>
                                     </div>
